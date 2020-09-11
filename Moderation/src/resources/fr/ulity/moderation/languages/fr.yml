@@ -1,0 +1,275 @@
+commands:
+  clearChat:
+    description: "Permet de clear le chat"
+    expressions:
+      notification: "&7le chat a été clear par &b%sender% &7pour &c%reason%"
+      unknown_reason: "une raison inconnue"
+      console: "la console"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  chat:
+    description: "Permet de gérer le chat"
+    usage: |-
+      &eActiver le chat: &7/chat &aactiver
+      &eDésactiver le chat: &7/chat &cdésactiver
+    expressions:
+      broadcast_chat_enabled: "&7le chat est maintenant &aactivé"
+      broadcast_chat_disabled: "&7le chat est maintenant &cdésactivé"
+      error_chat_is_disabled: "&7[&cX&7] le chat est &cdésactivé &7!"
+    warning_admin:
+      delay_minute: 3
+      message: "&cAttention: &7le chat est actuellement désactivé"
+  mute:
+    description: "Permet d'empecher un joueur de parler indéfinniment"
+    usage: |-
+      §eMute un joueur: &7/mute <joueur> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_mute_staff: "&7Vous ne pouvez pas mute le staff &b%player%"
+      you_are_muted: "&7Vous avez été muté indéfinniment par &b%staff% &7pour &c%reason%"
+      when_chat_blocked: |-
+        &7[&cX&7] Vous avez été muté !
+        &cRaison: &7%reason%
+        &cStaff: &b%staff%
+      when_receive_message: |-
+        &c%player% &7ne pourra pas vous répondre.
+        &7Son mute se lèvera à nouvel ordre.
+        &7Mais en profitez pas pour le taquiner :/
+      result: "&c%player% &7est maintenant mute"
+    broadcast:
+      enabled: true
+      message_without_reason: "&c%player% &7a été muté (&b%staff%&7)"
+      message: "&c%player% &7a été muté (%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  tempmute:
+    description: "Permet d'empecher un joueur de parler temporairement"
+    usage: |-
+      §eMute un joueur: &7/mute <joueur> <durée> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_mute_staff: "&7Vous ne pouvez pas mute le staff &b%player%"
+      you_are_muted: "&7Vous avez été muté &c%time% &7par &b%staff% &7pour &c%reason%"
+      when_chat_blocked: |-
+        &7Vous avez été réduit au silence par un staff (&b%staff%&7)
+
+        &7Raison: &c%reason%
+        &7Temps restant: &c%timeLeft%
+      when_receive_message: |-
+        &c%player% &7ne pourra pas vous répondre.
+        &7Son mute se terminera dans &c%timeLeft%.
+        &7Mais en profitez pas pour le taquiner :/
+      result: "&c%player% &7est maintenant mute temporairement"
+    broadcast:
+      enabled: true
+      message_without_reason: "&c%player% &7a été muté &c%time% &7(&b%staff%&7)"
+      message: "&c%player% &7a été muté &c%time% &7(%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  unmute:
+    description: "Permet de démute un joueur"
+    usage: |-
+      §eUnMute un joueur: &7/mute <joueur>
+    expressions:
+      is_not_muted: "&7Le joueur &c%player% &7n'est pas mute"
+      unmuted: "&7Le joueur &c%player% &7peut de nouveau parler."
+      you_are_unmuted: "&7Vous avez été unmute par un staff (&b%staff%&7)."
+  ban:
+    description: "Permet de bannir un joueur définitivement"
+    usage: |-
+      §eBan un joueur: &7/ban <joueur> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_ban_staff: "&7Vous ne pouvez pas bannir le staff &b%player%"
+      you_are_banned: |-
+        &eVous avez été banni de ce serveur
+
+
+        &cDurée: &7Indéfiniment
+        &cResponsable: &b%staff%
+        &cRaison: &7%reason%
+      result: "&c%player% &7est maintenant banni"
+    broadcast:
+      enabled: true
+      message_without_reason: "&c%player% &7a été banni (&b%staff%&7)"
+      message: "&c%player% &7a été banni (%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  tempban:
+    description: "Permet de bannir un joueur temporairement"
+    usage: |-
+      §eBan un joueur temporairement: &7/tempban <joueur> <durée> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_ban_staff: "&7Vous ne pouvez pas bannir le staff &b%player%"
+      you_are_banned: |-
+        &eVous avez été banni de ce serveur
+
+
+        &cDurée: &7%timeLeft%
+        &cResponsable: &b%staff%
+        &cRaison: &7%reason%
+      result: "&c%player% &7est maintenant banni temporairement"
+    broadcast:
+      enabled: true
+      message_without_reason: "&c%player% &7a été banni &c%time% &7(&b%staff%&7)"
+      message: "&c%player% &7a été banni &c%time% &7(%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  unban:
+    description: "Permet de débannir un joueur"
+    usage: |-
+      §eUnBan un joueur: &7/unban <joueur>
+    expressions:
+      is_not_banned: "&7Le joueur &c%player% &7n'est pas banni"
+      unbanned: "&7Le joueur &c%player% &7peut de nouveau rejoindre."
+  vanish:
+    description: "Permet de définir son invisibilité"
+    usage: |-
+      §eToggle l'invisibilité de sois-même: &7/mute
+      §eToggle l'invisibilité d'un joueur: &7/mute [<joueur>]
+    expressions:
+      no_perm_self: "&cVous ne pouvez pas vous &6vanish &cvous même"
+      no_perm_other: "&cVous ne pouvez pas &6vanish &cun autre joueur"
+      vanished_notification: "&7Vous avez été &avanish."
+      unvanished_notification: "&7Vous avez été &cunvanish."
+      vanished_other: "&b%player% &7Va été &avanish."
+      unvanished_other: "&b%player% &7Va été &cunvanish."
+  staffchat:
+    description: "Permet de parler aux staff seulement"
+    usage: |-
+      §eEnvoyer des messages aux staff: &7/sc <message ...>
+    output: "&e[StaffChat] &b%player% &8: &7%message%"
+  kick:
+    description: "Permet d'expulser un joueur pouvant revenir"
+    usage: |-
+      §eExpulser un joueur: &7/kick <joueur> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_kick_staff: "&7Vous ne pouvez pas kick le staff &b%player%"
+      you_are_kicked: |-
+        &eVous avez été expulsé de ce serveur
+
+
+        &cResponsable: &b%staff%
+        &cRaison: &7%reason%
+      result: "&c%player% &7est a été kick"
+    broadcast:
+      enabled: false
+      message_without_reason: "&c%player% &7a été expulsé (&b%staff%&7)"
+      message: "&c%player% &7a été expulsé (%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - calme toi
+      - spam
+  banip:
+    description: "Permet de bannir une ip, ou celle d'un joueur par son nom"
+    usage: |-
+      §eBan une ip: &7/ban <IP> [raison]
+      §eBan l'ip d'un joueur: &7/ban <joueur> [raison]
+    expressions:
+      unknown_reason: "raison inconnue"
+      cant_ban_staff_ip: "&7Vous ne pouvez pas bannir l'ip du staff &b%player%"
+      you_are_banned: |-
+        &eVous avez été banni de ce serveur
+
+
+        &cDurée: &7Indéfiniment
+        &cResponsable: &b%staff%
+        &cRaison: &7%reason%
+      result: "&c%player% &7est maintenant banni"
+    broadcast:
+      enabled: false
+      message_without_reason: "&c%player% &7a été banni par IP (&b%staff%&7)"
+      message: "&c%player% &7a été banni par IP (%reason% - &b%staff%&7)"
+    reasons_predefined:
+      - flood
+      - spam
+      - publicité
+      - insultes
+  unbanip:
+    description: "Permet de débannir une IP"
+    usage: |-
+      §eUnBan une IP: &7/unbanip <ip>
+    expressions:
+      is_not_banned: "&7L'IP &c%ip% &7n'est pas bannie"
+      unbanned: "&7L'IP &c%ip% &7peut de nouveau se connecter."
+  invsee:
+    description: "Permet de visualiser [et changer un inventaire]"
+    usage: |-
+      &eVisualiser un inventaire IP: &7/invsee <joueur>
+
+      &cSi permission accordée:
+      &eModifier un inventaire IP: &7/invsee <joueur>
+    expressions:
+      inventory_opened: "&7Vous consultez l'inventaire de &b%player%"
+  freeze:
+    description: "Permet d'immobiliser un joueur, et l'empêcher d'envoyer de message sauf aux modérateurs"
+    usage: |-
+      &eImmobiliser un joueur: &7/freeze <joueur>
+    expressions:
+      unknown_reason: "inconnue"
+      cant_freeze_staff: "&7Vous ne pouvez pas freeze le staff &b%player%"
+      player_freezed: "&7Le joueur &b%player% &7a été immobilisé"
+
+      notification: |-
+        &b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-
+        &7vous êtes à présent &b&lfreeze
+        &6Un bonhomme de neige ne bouge pas et ne parle pas !
+         &7
+        &c&oRaison: &7%reason%
+        &c&oStaff: &b%staff%
+        &b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-&b-&b&m-
+      reasons_predefined:
+      - triche
+      - grief
+      - troll
+  unfreeze:
+    description: "Permet d'annuler un freeze"
+    usage: |-
+      &eAnnule le freeze d'un joueur: &7/unfreeze <joueur>
+    expressions:
+      player_unfreezed: "&7Le joueur &b%player% &7a été &c&o&lunfreeze"
+      is_not_freezed: "&7Le joueur &b%player% &7n'est pas &b&o&lfreeze"
+      unknown_reason: "inconnue"
+      notification: "&7Vous avez été &c&o§lunfreeze"
+
+
+
+module:
+  anti_insult:
+    enabled: true
+    chat:
+      error_message: "&7[&cX&7] votre message contient le mot prohibé &c%word% &7!"
+      error_message_staff: "&7[&cX&7] Un bon staff ne dirait pas le mot &c%word% &7!"
+      staff_bypass: false
+    words:
+      - ta gueule
+      - connard
+      - ta mère la
+      - pute
+      - pétasse
+      - salope
+      - connasse
+    commands:
+      error_message: "&7[&cX&7] le mot &c%word% &7est prohibé pour cette commande !"
+      error_message_staff: "&7[&cX&7] Un bon staff ne dirait pas le mot &c%word% &7 !"
+      staff_bypass: false
+      all: false
+      list:
+        - msg
+        - r
