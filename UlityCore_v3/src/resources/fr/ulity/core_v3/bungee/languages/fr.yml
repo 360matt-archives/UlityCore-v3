@@ -1,0 +1,4 @@
+socket:
+  waiting: "Attente d'une connexion ..."
+  logged: "Authentifié: %name%"
+  logout: "Déconnecté: %name%"

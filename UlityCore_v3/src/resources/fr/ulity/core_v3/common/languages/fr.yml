@@ -1,0 +1,38 @@
+global:
+  enable: "activer"
+  disable: "désactiver"
+  enabled: "activé"
+  disabled: "désactivé"
+  invalid_player: "&7[&cX&7] Le joueur &c%player% &7est invalide."
+  invalid_world: "&7[&cX&7] Le monde &c%world% &7est invalide."
+  player_only: "&7[&cX&7] Cette commande doit être éxécutée par un joueur."
+  no_self: "&7[&cX&7] Veuillez spécifier un autre pseudo que le votre !"
+period:
+  years: "années"
+  year: "année"
+  months: "mois"
+  month: "mois"
+  days: "jours"
+  day: "jour"
+  hours: "heures"
+  hour: "heure"
+  minutes: "minutes"
+  minute: "minute"
+  seconds: "secondes"
+  second: "seconde"
+  separator: ", "
+arg_needed:
+  player: "&7[&cX&7] Un argument &cjoueur &7est attendu !"
+  world: "&7[&cX&7] Un argument &cmonde &7est attendu !"
+  number: "&7[&cX&7] Un argument &cnombre &7est attendu !"
+  default: "&7[&cX&7] Un argument est attendu !"
+socket:
+  prefix: "[UlityCore - Socket] "
+  server:
+    started: "Serveur Socket lancé !"
+    logged: "Client connecté: %name%"
+    logout: "Client déconnecté: %name%"
+  client:
+    logged: "%name% : a commencé une connexion au serveur %connection%"
+    logout: "%name% : a perdu la connection au serveur %connection%"
+    retrying: "%name% : essaie de reconnexion dans 5 secondes ..."
