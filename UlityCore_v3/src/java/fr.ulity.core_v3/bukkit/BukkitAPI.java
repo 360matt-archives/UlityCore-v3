@@ -11,12 +11,17 @@ import java.lang.reflect.Field;
 
 
 public class BukkitAPI {
+    public static JavaPlugin principalPlugin;
+
     public static JavaPlugin plugin;
     public static CommandMap commandMap;
 
 
     public static void init(JavaPlugin plugin) {
         BukkitAPI.plugin = plugin;
+
+        if (principalPlugin == null)
+            principalPlugin = plugin;
 
         Config serverConf = new Config(new File((new File(".")).getAbsolutePath() + File.separator + "plugins" + File.separator + "core.yml"));
         Core.basePath = new File(serverConf.getOrSetDefault("basePath", (new File(".")).getAbsolutePath() + File.separator + "core"));

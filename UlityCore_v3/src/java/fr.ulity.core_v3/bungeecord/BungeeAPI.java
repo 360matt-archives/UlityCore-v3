@@ -9,10 +9,15 @@ import java.io.File;
 
 
 public class BungeeAPI {
+    public static Plugin principalPlugin;
+
     public static Plugin plugin;
 
     public static void init(Plugin plugin) {
         BungeeAPI.plugin = plugin;
+
+        if (principalPlugin == null)
+            principalPlugin = plugin;
 
         Config serverConf = new Config(new File((new File(".")).getAbsolutePath() + File.separator + "plugins" + File.separator + "core.yml"));
         Core.basePath = new File(serverConf.getOrSetDefault("basePath", (new File(".")).getAbsolutePath() + File.separator + "core"));
