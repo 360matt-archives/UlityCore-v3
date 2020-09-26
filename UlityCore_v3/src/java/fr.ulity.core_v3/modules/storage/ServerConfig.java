@@ -12,11 +12,11 @@ public class ServerConfig extends Yaml {
     }
 
     public ServerConfig(String name) {
-        super(new File(Core.basePath.getAbsoluteFile() + File.separator + Core.servername + File.separator + name + ".yml"));
+        super(new File(Core.basePath.getAbsoluteFile() + File.separator + "servers" + File.separator + Core.servername + File.separator + name + ".yml"));
     }
 
     public ServerConfig(String name, String path) {
-        super(new File(Core.basePath.getAbsoluteFile() + File.separator + Core.servername + File.separator + path + File.separator + name + ".yml"));
+        super(new File(Core.basePath.getAbsoluteFile() + File.separator + "servers" + File.separator + Core.servername + File.separator + path + File.separator + name + ".yml"));
     }
 
     public ServerConfig(File file) {
