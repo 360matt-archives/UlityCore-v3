@@ -41,25 +41,10 @@ public class Text {
         return new String(str.getBytes(), StandardCharsets.UTF_8);
     }
 
-    public Text setColored() {
-        this.colored = true;
-        return this;
-    }
-
-    public Text setEncoded() {
-        this.encoded = true;
-        return this;
-    }
-
-    public Text setNewLine() {
-        this.newline = true;
-        return this;
-    }
-
-    public Text setBeginging(int b) {
-        this.begin = b;
-        return this;
-    }
+    public Text setColored() { this.colored = true; return this; }
+    public Text setEncoded() { this.encoded = true; return this; }
+    public Text setNewLine() { this.newline = true; return this; }
+    public Text setBeginging(int b) { this.begin = b; return this; }
 
     private void generate() {
         if (outputList.size() == 0 && outputStr.length() == 0)
@@ -77,18 +62,7 @@ public class Text {
             }
     }
 
-    public List<String> outputList() {
-        generate();
-        return this.outputList;
-    }
-
-    public String[] outputArray() {
-        generate();
-        return this.outputList.toArray(new String[0]);
-    }
-
-    public String outputString() {
-        generate();
-        return this.outputStr.toString().replaceAll("\n$", "");
-    }
+    public List<String> outputList() { generate(); return this.outputList; }
+    public String[] outputArray() { generate(); return this.outputList.toArray(new String[0]); }
+    public String outputString() { generate(); return this.outputStr.toString().replaceAll("\n$", ""); }
 }
