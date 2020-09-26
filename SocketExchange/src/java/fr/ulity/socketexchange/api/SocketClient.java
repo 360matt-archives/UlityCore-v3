@@ -10,16 +10,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SocketClient {
     private static final ConcurrentHashMap<String, Consumer<JSONObject>> listeners = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Callback> callbacks = new ConcurrentHashMap<>();
 
     private Socket client;
     private PrintWriter out;
@@ -59,7 +57,8 @@ public class SocketClient {
                                 processRequest(new JSONObject(request));
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                System.out.println("Pas de Json :/");
+                                System.out.println("Malformed JSON: " + request);
+                                System.out.println("Pas de Json :/   --   WTF the JSON ??");
                             }
                         }
 
@@ -78,7 +77,7 @@ public class SocketClient {
                                                     .replaceAll("%name%", name)
                             );
 
-                        TimeUnit.SECONDS.sleep(2L);
+                        TimeUnit.SECONDS.sleep(5L);
                     } finally {
                         try {
                             client.close();
@@ -92,44 +91,55 @@ public class SocketClient {
     }
 
     public void registerDefaultListener () {
-        listen("isOnline", x -> {
-            reply(x, x);
-        });
+        listen("isOnline", x -> reply(x, new JSONObject("{}")));
     }
 
 
-    public Pattern patternListeners = Pattern.compile("(.*)#[0-9]*@([A-Za-z])");
+    public Pattern patternListeners = Pattern.compile("(.*)#([0-9]*)");
     public void processRequest (JSONObject request) {
-        new Thread(() -> {
-            String channel = request.getString("__channel");
+        String channel = request.getString("__channel");
+        String id = String.valueOf(request.getInt("__id_reply"));
 
-            Iterator<String> it = listeners.keySet().iterator();
+        if (!channel.startsWith("reply_")) {
+            /* permanent listeners */
+            listeners.forEach((k, v) -> {
+                Matcher matcher = patternListeners.matcher(k);
+
+                if (matcher.find() && matcher.group(1).equals(channel))
+                    listeners.get(k).accept(request);
+            });
+        } else {
+            /* one time listeners */
+            Iterator<String> it = callbacks.keySet().iterator();
             while (it.hasNext()) {
                 String key = it.next();
 
                 Matcher matcher = patternListeners.matcher(key);
-                if (matcher.find()) {
-                    if (matcher.group(1).equals(channel)) {
-                        listeners.get(key).accept(request);
-                    if (matcher.group(2).equals("y"))
-                        it.remove();
-                    }
+
+                if (matcher.find() && matcher.group(1).equals(channel) && matcher.group(2).equals(id)) {
+                    Callback callback = callbacks.get(key);
+                    callback.consumer.accept(request);
+                    if (callback.threadTimeout != null)
+                        callback.threadTimeout.interrupt();
+                    it.remove();
+                    break;
                 }
             }
-        }).start();
+        }
     }
 
 
-    public void listen (String channel, Consumer<JSONObject> callback) {
+    public void listen (String channel, Consumer<JSONObject> json) {
         int randomNum = ThreadLocalRandom.current().nextInt(20, 5001);
-        listeners.put(channel + "#" + randomNum + "@n", callback);
+        listeners.put(channel + "#" + randomNum, json);
     }
 
     public void reply (JSONObject before, JSONObject reply) {
         if (!client.isClosed() && client.isConnected()) {
+            reply.put("__type", "transfer");
+            reply.put("__id_reply", before.getInt("__id_reply"));
             reply.put("__recipient", before.getString("__sender"));
             reply.put("__channel", "reply_" + before.getString("__channel"));
-            reply.put("__type", "transfer");
 
             out.println(reply.toString());
             out.flush();
@@ -137,35 +147,37 @@ public class SocketClient {
     }
 
     public void reply (JSONObject before, HashMap<String, Object> reply) {
-        JSONObject jsonObject = new JSONObject("{}");
+        final JSONObject jsonObject = new JSONObject("{}");
         reply.forEach(jsonObject::put);
         reply(before, jsonObject);
     }
 
     public Callback send (String server, String channel, JSONObject data) {
         if (!client.isClosed() && client.isConnected()) {
+            int id = ThreadLocalRandom.current().nextInt(20, 10001);
+
             data.put("__type", "transfer");
+            data.put("__id_reply", id);
             data.put("__recipient", server);
             data.put("__channel", channel);
 
             out.println(data.toString());
             out.flush();
-            return new Callback(data);
+            return new Callback(data, id);
         }
         return new Callback();
     }
 
     public Callback send (String server, String channel, HashMap<String, Object> data) {
-        JSONObject json = new JSONObject("{}");
-        data.forEach(json::put);
-        return send(server, channel, json);
+        JSONObject jsonObject = new JSONObject("{}");
+        data.forEach(jsonObject::put);
+        return send(server, channel, jsonObject);
     }
 
     public boolean isOnline (String server) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
         send(server, "isOnline", new HashMap<>())
                 .callback(x -> future.complete(true))
-                .waiting(0.5)
                 .timeout(x -> future.complete(false));
 
         return future.join();
@@ -176,7 +188,7 @@ public class SocketClient {
         CompletableFuture<Long> future = new CompletableFuture<>();
         send(server, "isOnline", new HashMap<>())
                 .callback(x -> future.complete(new Date().getTime()))
-                .waiting(2)
+                .waiting(1)
                 .timeout(x -> future.complete(new Date().getTime()));
 
         return (int) (future.join() - date);
@@ -184,36 +196,43 @@ public class SocketClient {
 
     public static class Callback {
         private final JSONObject json;
-        private double wait = 5.0D;
-        private String id = "";
+        private String id;
+        private int rdmID;
+
+        private Consumer<JSONObject> consumer;
+
+        private Thread threadTimeout;
+        private float wait = 0.05F;
+
 
         public Callback () { this.json = null; }
-        public Callback (JSONObject json) { this.json = json; }
+        public Callback (JSONObject json, int rdmID) { this.json = json; this.rdmID = rdmID; }
 
         public Callback callback (Consumer<JSONObject> callback) {
+            this.consumer = callback;
             if (json != null) {
-                int randomNum = ThreadLocalRandom.current().nextInt(20, 5001);
-                this.id = "reply_" + json.getString("__channel") + "#" + randomNum + "@y";
-                listeners.put(this.id, callback);
+                this.id = "reply_" + json.getString("__channel") + "#" + rdmID;
+                callbacks.put(this.id, this);
             }
             return this;
         }
 
-        public Callback waiting (double seconds) { wait = seconds; return this; }
+        public Callback waiting (float seconds) { wait = seconds; return this; }
 
-        public Callback timeout (Consumer<Void> fail) {
+        public void timeout (Consumer<Void> fail) {
             if (json != null) {
-                new Thread(() -> {
+                threadTimeout = new Thread(() -> {
                     try {
-                        TimeUnit.MILLISECONDS.sleep((long) (this.wait * 1000.0D));
-                        if (listeners.containsKey(this.id)) {
-                            listeners.remove(this.id);
+                        TimeUnit.MILLISECONDS.sleep((long) (this.wait * 1000));
+                        if (callbacks.containsKey(id)) {
+                            callbacks.remove(id);
                             fail.accept(null);
                         }
                     } catch (Exception ignored) { }
-                }).start();
-            }
-            return this;
+                });
+                threadTimeout.start();
+            } else
+                fail.accept(null);
         }
     }
 

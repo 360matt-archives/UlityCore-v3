@@ -19,9 +19,7 @@ public class SocketClient {
         }
     }
 
-    public static void listen (String channel, Consumer<JSONObject> callback) {
-        client.listen(channel, callback);
-    }
+    public static void listen (String channel, Consumer<JSONObject> callback) { if (client != null ) client.listen(channel, callback); }
 
     public static void reply(JSONObject before, JSONObject reply) {
         client.reply(before, reply);
@@ -32,16 +30,16 @@ public class SocketClient {
     }
 
     public static fr.ulity.socketexchange.api.SocketClient.Callback send (String server, String channel, JSONObject data) {
-        return client.send(server, channel, data);
+        return (client != null ) ? client.send(server, channel, data) : new fr.ulity.socketexchange.api.SocketClient.Callback();
     }
 
     public static fr.ulity.socketexchange.api.SocketClient.Callback send (String server, String channel, HashMap<String, Object> data) {
-        return client.send(server, channel, data);
+        return (client != null ) ? client.send(server, channel, data) : new fr.ulity.socketexchange.api.SocketClient.Callback();
     }
 
 
 
-    public static boolean isOnline(String server) { return client.isOnline(server); }
-    public static int getPing(String server) { return client.getPing(server); }
+    public static boolean isOnline(String server) { return client != null && client.isOnline(server); }
+    public static int getPing(String server) { return (client != null ) ? client.getPing(server) : 2000; }
 
 }
