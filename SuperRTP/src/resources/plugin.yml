@@ -1,6 +1,6 @@
 name: SuperRTP
 version: 2.0
-main: fr.ulity.superrtp.MainBukkitRTP
+main: fr.ulity.superrtp.bukkit.MainBukkitRTP
 api-version: 1.16
 prefix: SuperRTP
 depend: [Vault]
