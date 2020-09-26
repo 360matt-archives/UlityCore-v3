@@ -1,7 +1,7 @@
-package fr.ulity.superrtp.commands;
+package fr.ulity.superrtp.bukkit.commands;
 
 import de.leonhard.storage.sections.FlatFileSection;
-import fr.ulity.superrtp.MainBukkitRTP;
+import fr.ulity.superrtp.bukkit.MainBukkitRTP;
 import fr.ulity.core_v3.modules.commandHandlers.CommandBukkit;
 import fr.ulity.core_v3.modules.datas.UserCooldown;
 import fr.ulity.core_v3.modules.language.Lang;
@@ -72,7 +72,7 @@ public class CommandRTP extends CommandBukkit {
 
             for (String x : MainBukkitRTP.config.singleLayerKeySet("gui")) {
                 FlatFileSection section = MainBukkitRTP.config.getSection("gui." + x);
-                String title = new Text(new String[]{section.getString("title")})
+                String title = new Text(section.getString("title"))
                         .setColored()
                         .setEncoded()
                         .outputString();
@@ -81,15 +81,16 @@ public class CommandRTP extends CommandBukkit {
 
                 boolean staffBypass = MainBukkitRTP.config.getBoolean("global.staff_bypass") && player.hasPermission("ulity.superrtp.bypass");
 
-                Material material;
+                Material material = Material.DIRT;
                 try {
                     material = Material.valueOf(section.getString("item.material"));
-                }
-                catch (Exception e) {
-                    material = Material.DIRT;
-                    System.out.println(Lang.get(player, "super_RTP.staff_error.invalid_material")
-                            .replaceAll("%name%", title)
-                            .replaceAll("%material%", section.getString("item.material")));
+                } catch (Exception e) {
+                    System.out.println(
+                            Lang.prepare("super_RTP.staff_error.invalid_material")
+                                .variable("name", title)
+                                .variable("material", section.getString("item.material"))
+                                .getOutput()
+                    );
                 }
 
 

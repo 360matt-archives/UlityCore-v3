@@ -1,8 +1,8 @@
-package fr.ulity.superrtp;
+package fr.ulity.superrtp.bukkit;
 
-import fr.ulity.superrtp.commands.CommandRTP;
-import fr.ulity.superrtp.events.InventoryEventRTP;
-import fr.ulity.superrtp.events.InvincibleRTP;
+import fr.ulity.superrtp.bukkit.commands.CommandRTP;
+import fr.ulity.superrtp.bukkit.events.InventoryEventRTP;
+import fr.ulity.superrtp.bukkit.events.InvincibleRTP;
 import fr.ulity.core_v3.Core;
 import fr.ulity.core_v3.modules.loaders.BukkitLoader;
 import fr.ulity.core_v3.modules.storage.ServerConfig;

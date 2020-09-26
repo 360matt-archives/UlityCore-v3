@@ -1,7 +1,7 @@
-package fr.ulity.superrtp.events;
+package fr.ulity.superrtp.bukkit.events;
 
 import de.leonhard.storage.sections.FlatFileSection;
-import fr.ulity.superrtp.MainBukkitRTP;
+import fr.ulity.superrtp.bukkit.MainBukkitRTP;
 import fr.ulity.superrtp.api.SuperRtpApi;
 import fr.ulity.core_v3.modules.datas.UserCooldown;
 import fr.ulity.core_v3.modules.language.Lang;

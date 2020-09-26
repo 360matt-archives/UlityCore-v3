@@ -1,4 +1,4 @@
-package fr.ulity.superrtp;
+package fr.ulity.superrtp.bukkit;
 
 import java.io.InputStream;
 

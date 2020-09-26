@@ -1,6 +1,6 @@
-package fr.ulity.superrtp.events;
+package fr.ulity.superrtp.bukkit.events;
 
-import fr.ulity.superrtp.MainBukkitRTP;
+import fr.ulity.superrtp.bukkit.MainBukkitRTP;
 import fr.ulity.superrtp.api.SuperRtpApi;
 import fr.ulity.core_v3.modules.language.Lang;
 import org.bukkit.Bukkit;
