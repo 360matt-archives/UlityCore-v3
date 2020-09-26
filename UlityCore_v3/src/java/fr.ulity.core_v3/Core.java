@@ -8,7 +8,10 @@ import fr.ulity.core_v3.internal.config.DefaultCommonConfig;
 import fr.ulity.core_v3.messaging.defaults.SocketExpressions;
 import fr.ulity.core_v3.messaging.SocketClient;
 import fr.ulity.core_v3.messaging.SocketServer;
+import fr.ulity.core_v3.messaging.events.ServStatSockEvent;
+import fr.ulity.core_v3.messaging.events.TPserverSockEvent;
 import fr.ulity.core_v3.modules.language.Lang;
+import fr.ulity.core_v3.modules.networking.ServerInfos;
 import fr.ulity.core_v3.modules.storage.Config;
 import fr.ulity.core_v3.modules.storage.Temp;
 import net.md_5.bungee.api.plugin.Plugin;
@@ -29,12 +32,15 @@ public class Core {
         type = ServerApiType.BUKKIT;
         BukkitAPI.init(plugin);
         commonInit();
+        ServStatSockEvent.bukkit();
     }
 
     public static void initialize(Plugin plugin) {
         type = ServerApiType.BUNGEE;
         BungeeAPI.init(plugin);
         commonInit();
+        ServStatSockEvent.bungee();
+        TPserverSockEvent.registerBungee();
     }
 
     private static void commonInit() {
@@ -50,9 +56,12 @@ public class Core {
             temp = new Temp();
 
             SocketExpressions.change();
-            if (type.equals(ServerApiType.BUNGEE))
+            if (type.equals(ServerApiType.BUNGEE)) {
                 SocketServer.start();
+            }
             SocketClient.start();
+
+            ServerInfos.registerListener();
         } catch (IOException e) {
             e.printStackTrace();
         }
