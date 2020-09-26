@@ -60,9 +60,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.JavaFactoryDev</groupId>
-            <artifactId>LightningStorage</artifactId>
-            <version>3.1.8</version>
+            <groupId>com.github.simplix-softworks</groupId>
+            <artifactId>SimplixStorage</artifactId>
+            <version>3.1.9</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -76,6 +76,12 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>fr.mrmicky</groupId>
+            <artifactId>FastBoard</artifactId>
+            <version>1.1.0</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

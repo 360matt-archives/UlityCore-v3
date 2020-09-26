@@ -40,7 +40,7 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-buffer:4.1.49.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-transport:4.1.49.Final" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: io.netty:netty-resolver:4.1.49.Final" level="project" />
-    <orderEntry type="library" name="Maven: com.github.JavaFactoryDev:LightningStorage:3.1.8" level="project" />
+    <orderEntry type="library" name="Maven: com.github.simplix-softworks:SimplixStorage:3.1.9" level="project" />
     <orderEntry type="library" name="Maven: com.esotericsoftware.yamlbeans:yamlbeans:1.13" level="project" />
     <orderEntry type="library" name="Maven: org.json:json:20190722" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:18.0.0" level="project" />
@@ -50,5 +50,6 @@
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
+    <orderEntry type="library" name="Maven: fr.mrmicky:FastBoard:1.1.0" level="project" />
   </component>
 </module>
