@@ -1,7 +1,7 @@
 package fr.ulity.superrtp.api;
 
 import de.leonhard.storage.sections.FlatFileSection;
-import fr.ulity.superrtp.MainBukkitRTP;
+import fr.ulity.superrtp.bukkit.MainBukkitRTP;
 import fr.ulity.core_v3.utils.Text;
 import org.bukkit.Location;
 import org.bukkit.Material;
