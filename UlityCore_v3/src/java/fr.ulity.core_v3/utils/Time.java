@@ -51,13 +51,13 @@ public class Time {
             int number = Integer.parseInt(matcher.group(1));
             String multiplier = matcher.group(2);
 
-            this.seconds += (multiplier.equals("s") ? number : 0) + (
-                    multiplier.equals("m") ? (number * 60) : 0) + (
-                    multiplier.equals("h") ? (number * 60 * 60) : 0) + ((multiplier
-                    .equals("d") || multiplier.equals("j")) ? (number * 60 * 60 * 24) : 0) + (
-                    multiplier.equals("w") ? (number * 60 * 60 * 24 * 7) : 0) + (
-                    multiplier.equals("o") ? (number * 60 * 60 * 24 * 31) : 0) + (
-                    multiplier.equals("y") ? (number * 60 * 60 * 24 * 365) : 0);
+            this.seconds += (multiplier.equals("s") ? number : 0) +
+                    (multiplier.equals("m") ? (number * 60) : 0) +
+                    (multiplier.equals("h") ? (number * 60 * 60) : 0) +
+                    (multiplier.equals("d") || multiplier.equals("j") ? (number * 60 * 60 * 24) : 0) +
+                    (multiplier.equals("w") ? (number * 60 * 60 * 24 * 7) : 0) +
+                    (multiplier.equals("o") ? (number * 60 * 60 * 24 * 31) : 0) +
+                    (multiplier.equals("y") ? (number * 60 * 60 * 24 * 365) : 0);
         }
     }
 
@@ -67,15 +67,15 @@ public class Time {
 
     private void textFromSeconds(int seconds) {
         HashMap<String, Integer> degre = new HashMap<>();
-        degre.put("year", (int) Math.floor((seconds / 31536000)));
+        degre.put("year", (int) Math.floor(seconds / 31536000));
         seconds -= degre.get("year") * 31536000;
-        degre.put("month", (int) Math.floor((seconds / 2592000)));
+        degre.put("month", (int) Math.floor(seconds / 2592000));
         seconds -= degre.get("month") * 2592000;
-        degre.put("day", (int) Math.floor((seconds / 86400)));
+        degre.put("day", (int) Math.floor(seconds / 86400));
         seconds -= degre.get("day") * 86400;
-        degre.put("hour", (int) Math.floor((seconds / 3600)));
+        degre.put("hour", (int) Math.floor(seconds / 3600));
         seconds -= degre.get("hour") * 3600;
-        degre.put("minute", (int) Math.floor((seconds / 60)));
+        degre.put("minute", (int) Math.floor(seconds / 60));
         seconds -= degre.get("minute") * 60;
         degre.put("second", seconds);
 
