@@ -17,6 +17,7 @@ public class Sha256 {
 
     public static String toHexString(byte[] hash) {
         BigInteger number = new BigInteger(1, hash);
+        // deepcode ignore missing~append~java.lang.StringBuilder: <checked>
         StringBuilder hexString = new StringBuilder(number.toString(16));
 
         while (hexString.length() < 32)
