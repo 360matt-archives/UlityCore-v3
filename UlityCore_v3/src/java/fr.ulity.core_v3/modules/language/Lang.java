@@ -6,9 +6,6 @@ import fr.ulity.core_v3.bungeecord.BungeeAPI;
 import fr.ulity.core_v3.modules.storage.Config;
 import fr.ulity.core_v3.utils.ListingResources;
 import fr.ulity.core_v3.utils.Text;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
-import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.InputStream;
@@ -20,7 +17,9 @@ import java.util.regex.Pattern;
 
 public class Lang {
     public static HashMap<String, Config> langDatas = new HashMap<>();
+    /*  ISO -> Config */
 
+    // deepcode ignore AvoidReassigningParameters:
     public static void importFrom(Class clazz, String packagePath) {
         packagePath = packagePath.replaceAll("\\.", "/");
 
@@ -38,8 +37,7 @@ public class Lang {
                     }
                 }
             }
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) { }
     }
 
     public static String getDefaulLang() {
@@ -62,10 +60,10 @@ public class Lang {
 
         if (arg instanceof String)
             langIso = arg.toString();
-        else if (Core.type.equals(Core.ServerApiType.BUKKIT) && arg instanceof Player)
-            langIso = ((Player) arg).getLocale().toLowerCase().split("_")[0];
-        else if (Core.type.equals(Core.ServerApiType.BUNGEE))
-            langIso = ((ProxiedPlayer) arg).getLocale().getLanguage();
+        else if (Core.type.equals(Core.ServerApiType.BUKKIT) && arg instanceof org.bukkit.entity.Player)
+            langIso = ((org.bukkit.entity.Player) arg).getLocale().toLowerCase().split("_")[0];
+        else if (Core.type.equals(Core.ServerApiType.BUNGEE) && arg instanceof net.md_5.bungee.api.connection.ProxiedPlayer)
+            langIso = ((net.md_5.bungee.api.connection.ProxiedPlayer) arg).getLocale().getLanguage();
 
         if (langDatas.containsKey(langIso))
             return langDatas.get(langIso);
@@ -89,22 +87,19 @@ public class Lang {
         return convertText(langDatas.get(Core.config.getString("global.lang")).getString(exp));
     }
 
-    public static String get(Player arg, String exp) {
+    public static String get(org.bukkit.entity.Player arg, String exp) {
         return convertText(getPreferedLang(arg).getString(exp));
     }
-
-    public static String get(CommandSender arg, String exp) {
+    public static String get(org.bukkit.command.CommandSender arg, String exp) {
         return convertText(getPreferedLang(arg).getString(exp));
     }
-
-    public static String get(ProxiedPlayer arg, String exp) {
+    public static String get(net.md_5.bungee.api.connection.ProxiedPlayer arg, String exp) {
         return convertText(getPreferedLang(arg).getString(exp));
     }
 
     public static int getInt(String exp) {
         return getInt(getDefaulLang(), exp);
     }
-
     public static int getInt(Object lang, String exp) {
         return getPreferedLang(lang).getInt(exp);
     }
@@ -112,7 +107,6 @@ public class Lang {
     public static List getList(String exp) {
         return getList(getDefaulLang(), exp);
     }
-
     public static List getList(Object lang, String exp) {
         return (new Text(getPreferedLang(lang).getList(exp)))
                 .setEncoded()
@@ -123,7 +117,6 @@ public class Lang {
     public static String[] getArray(String exp) {
         return (new Text(getList(exp))).outputArray();
     }
-
     public static String[] getArray(Object arg, String exp) {
         return (new Text(getList(arg, exp))).outputArray();
     }
@@ -131,7 +124,6 @@ public class Lang {
     public static boolean getBoolean(String exp) {
         return getBoolean(getDefaulLang(), exp);
     }
-
     public static boolean getBoolean(Object arg, String exp) {
         return getPreferedLang(arg).getBoolean(exp);
     }
