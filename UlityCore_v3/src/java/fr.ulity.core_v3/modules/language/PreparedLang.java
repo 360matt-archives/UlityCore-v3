@@ -15,32 +15,14 @@ public class PreparedLang {
         this.exp = exp;
     }
 
-    public PreparedLang prefix(String prefix) {
-        this.prefix = prefix;
-        return this;
-    }
+    public PreparedLang prefix(String prefix) { this.prefix = prefix; return this; }
+    public PreparedLang suffix(String suffix) { this.suffix = suffix; return this; }
 
-    public PreparedLang suffix(String suffix) {
-        this.suffix = suffix;
-        return this;
-    }
+    public PreparedLang variable(String name, String replacement) { this.vars.put(name, replacement); return this; }
 
-    public PreparedLang variable(String name, String replacement) {
-        this.vars.put(name, replacement);
-        return this;
-    }
-
-    public void sendPlayer(org.bukkit.entity.Player player) {
-        player.sendMessage(getOutput(player));
-    }
-
-    public void sendPlayer(org.bukkit.command.CommandSender player) {
-        player.sendMessage(getOutput(player));
-    }
-
-    public void sendPlayer(net.md_5.bungee.api.CommandSender player) {
-        player.sendMessage(getOutput(player));
-    }
+    public void sendPlayer(org.bukkit.entity.Player player) { player.sendMessage(getOutput(player)); }
+    public void sendPlayer(org.bukkit.command.CommandSender player) { player.sendMessage(getOutput(player)); }
+    public void sendPlayer(net.md_5.bungee.api.CommandSender player) { player.sendMessage(getOutput(player)); }
 
     public String getOutput(Object lang) {
         String output = Text.getColored(Text.getConverted(Lang.getPreferedLang(lang).getString(this.exp)));
@@ -49,8 +31,5 @@ public class PreparedLang {
             output = output.replaceAll("%" + x.getKey() + "%", x.getValue());
         return this.prefix + output + this.suffix;
     }
-
-    public String getOutput() {
-        return getOutput(Lang.getDefaulLang());
-    }
+    public String getOutput() { return getOutput(Lang.getDefaulLang()); }
 }
