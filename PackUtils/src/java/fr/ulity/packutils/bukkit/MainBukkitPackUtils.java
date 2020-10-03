@@ -1,5 +1,6 @@
 package fr.ulity.packutils.bukkit;
 
+import fr.ulity.core_v3.modules.loaders.BukkitLoader;
 import fr.ulity.packutils.bukkit.commands.economy.*;
 import fr.ulity.packutils.bukkit.commands.gamemode.*;
 import fr.ulity.packutils.bukkit.commands.players.*;
@@ -14,9 +15,8 @@ import fr.ulity.packutils.bukkit.methods.EconomyMethods;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.java.JavaPlugin;
 
-public final class MainBukkitPackUtils extends JavaPlugin {
+public final class MainBukkitPackUtils extends BukkitLoader {
     public static MainBukkitPackUtils plugin;
     public static ServerConfig config;
 
