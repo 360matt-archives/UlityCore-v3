@@ -34,6 +34,7 @@
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:18.0.0" level="project" />
     <orderEntry type="module" module-name="SocketExchange" />
     <orderEntry type="library" name="Maven: fr.mrmicky:FastBoard:1.1.0" level="project" />
+    <orderEntry type="library" name="Maven: io.papermc:paperlib:1.0.5" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.github.MilkBowl:VaultAPI:1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" level="project" />
