@@ -39,7 +39,7 @@ public class EcoCommand extends CommandBukkit {
                 Lang.prepare("commands.eco.expressions.player.sold_set")
                         .variable("money", args[2])
                         .sendPlayer(playerHandle);
-            } else if (args[0].equalsIgnoreCase("add") && arg.requireNumber(2)) {
+            } else if ((args[0].equalsIgnoreCase("add") || args[0].equalsIgnoreCase("give")) && arg.requireNumber(2)) {
                 new EconomyMethods().depositPlayer(playerHandle.getName(), Double.parseDouble(args[2]));
                 if (!sender.getName().equals(playerHandle.getName())) {
                     Lang.prepare("commands.eco.expressions.sender.sold_added")
@@ -63,6 +63,7 @@ public class EcoCommand extends CommandBukkit {
                         .sendPlayer(playerHandle);
             } else
                 setStatus(Status.SYNTAX);
-        }
+        } else
+            setStatus(Status.SYNTAX);
     }
 }
