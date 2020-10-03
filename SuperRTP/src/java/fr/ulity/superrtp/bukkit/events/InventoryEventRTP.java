@@ -1,6 +1,7 @@
 package fr.ulity.superrtp.bukkit.events;
 
 import de.leonhard.storage.sections.FlatFileSection;
+import fr.ulity.core_v3.modules.vault.VaultHook;
 import fr.ulity.superrtp.bukkit.MainBukkitRTP;
 import fr.ulity.superrtp.api.SuperRtpApi;
 import fr.ulity.core_v3.modules.datas.UserCooldown;
@@ -56,10 +57,9 @@ public class InventoryEventRTP implements Listener {
 
                                     int cost = section.getInt("extra.cost");
 
-                                    MainBukkitRTP.ObtainEco obtain = MainBukkitRTP.getEco();
 
-                                    if (obtain.available) { // si l'économie est disponible
-                                        if (staffBypass || obtain.eco.getBalance(player) >= cost) {
+                                    if (VaultHook.isEco()) { // si l'économie est disponible
+                                        if (staffBypass || VaultHook.getEco().getBalance(player) >= cost) {
                                             // si joueur = staff ou qu'il a suffisament d'argent
 
 
@@ -85,7 +85,7 @@ public class InventoryEventRTP implements Listener {
                                                             // seulement si le joueur n'est pas en status bypass/staff ...
 
                                                             player.closeInventory();
-                                                            obtain.eco.withdrawPlayer(player, cost);
+                                                            VaultHook.getEco().withdrawPlayer(player, cost);
                                                             cooldownObj.applique(cooldown);
                                                             // ... on applique les obligations du joueurs (retrait d'argent, cooldolwn, etc... )
                                                         }
@@ -127,7 +127,7 @@ public class InventoryEventRTP implements Listener {
                                             }
                                         } else { // si le joueur n'a pas assez de money
                                             Lang.prepare("super_RTP.err_messages.no_money")
-                                                    .variable("left", String.valueOf(cost - obtain.eco.getBalance(player)))
+                                                    .variable("left", String.valueOf(cost - VaultHook.getEco().getBalance(player)))
                                                     .variable("title", title)
                                                     .sendPlayer(player);
                                         }
