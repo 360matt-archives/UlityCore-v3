@@ -51,7 +51,7 @@ public class TranslateVars {
 
             if(VaultHook.isSupported()) {
                 if (VaultHook.isEco())
-                    vars.put("%money%", VaultHook.getEco().getBalance(player));
+                    vars.put("%money%", Math.round(VaultHook.getEco().getBalance(player) * 100.0) / 100.0);
                 if (VaultHook.isPermission())
                     vars.put("%group%", VaultHook.getPermission().getPrimaryGroup(player));
             }
