@@ -1,0 +1,43 @@
+commands:
+  wm:
+    usage: "&eOuvrir la liste de commandes: /wm"
+    description: "&ePermet de gérer ses mondes"
+    expressions:
+      help: |-
+        &6-- -- -- -- -- -- &eWorldManager &6-- -- -- -- -- --
+        &6
+        &e-> &6/%cmd% &eimport &6<monde> - &cImporter un monde
+        &e-> &6/%cmd% &ecreate &6<monde> [attributs] - &cCreer un monde
+        &e-> &6/%cmd% &edelete &6<monde> [attributs] - &cSupprimer un monde
+        &e-> &6/%cmd% &etp &6<monde> [joueur] - &cTeleporter vers un monde
+        &e-> &6/%cmd% &eflags &6<monde> - &cModifier les flags
+        &e-> &6/%cmd% &esetspawn - &cModifie le spawn
+        &e-> &6/%cmd% &egenchunks &6<monde> <rayon> - &cPregen les chunks
+        &6
+        &6-- -- -- -- -- -- &eWorldManager &6-- -- -- -- -- --
+      import:
+        no_exist: '&6Le monde &e%world% &cn''existe pas &6!'
+        success: '&6Le monde &e%world% &6a bien été &aimporté'
+      create:
+        already_exist: "&6Le monde &e%world% &cexiste déjà &6!"
+        preparing: "&6Le monde &e%world% &6est en cours de création ..."
+        success: "&6Le monde &e%world% &6a bien été &acréé"
+        notice: |-
+          &6-- -- -- -- &eWorldManager : Créer un monde &6-- -- -- --
+          &6
+          &6Ajoutez au moins un de ces arguments:
+          &6
+          &6Dimensions: &3Normal &6- &3Nether &6- &3End
+          &6Type: &2Flat &6- &2Amplified &6- &2Large_Biome
+          &6Map void: &5Void
+          &6Seed: &4[[seed]] &6seed entre deux crochets
+          &6
+          &6-- -- -- -- &eWorldManager : Créer un monde &6-- -- -- --
+      tp:
+        no_exist: '&6Le monde &e%world% &cn''existe pas &6!'
+        player_teleported: '&b%target% &6a été téléporté au monde &e%world% !'
+      delete:
+        no_exist: '&6Le monde &e%world% &cn''existe pas &6!'
+        success: "&6Le monde &e%world% &6a bien été &csupprimé"
+      setspawn:
+        success: "&6Le spawn du monde &e%world% &6a bien été &achangé"
