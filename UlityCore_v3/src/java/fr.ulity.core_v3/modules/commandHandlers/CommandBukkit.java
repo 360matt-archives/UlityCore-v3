@@ -14,14 +14,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 public abstract class CommandBukkit extends BukkitCommand implements Listener {
     private final HashMap<Integer, ArrayList<TabCommandBukkit>> tabComplete;
+    private final List<DivisionBukkit> divisions = new ArrayList<>();
+
     public CommandSender sender;
     public Command cmd;
     public String[] args;
@@ -35,6 +35,26 @@ public abstract class CommandBukkit extends BukkitCommand implements Listener {
         BukkitAPI.getCommandMap().register(getName(), this);
     }
 
+    public boolean execDivision (CommandSender sender, String label, String[] args) {
+        AtomicBoolean stat = new AtomicBoolean(false);
+
+        divisions.forEach(x -> {
+            int count = 0;
+            for (String y : args) {
+                if (x.requiredArgs.containsKey(count)) {
+                    if (!x.requiredArgs.get(count).contains(y))
+                        break;
+                    count++;
+                    if (args.length >= count) {
+                        stat.set(true);
+                        x.execute(sender, label, args);
+                    }
+                } else break;
+            }
+        });
+        return stat.get();
+    }
+
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String[] args) {
         this.sender = sender;
         this.cmd = this;
@@ -42,10 +62,12 @@ public abstract class CommandBukkit extends BukkitCommand implements Listener {
         this.arg = new ArgBukkit(sender, this.cmd, args);
         this.cooldown = new UserCooldown(sender.getName(), getName());
 
-        if (getUsage().equals("/" + getName()))
-            setUsage(Lang.get("commands." + getName() + ".usage"));
-        exec(sender, label, args);
-        operateStatus();
+        if (!execDivision(sender, label, args)) {
+            if (getUsage().equals("/" + getName()))
+                setUsage(Lang.get("commands." + getName() + ".usage"));
+            exec(sender, label, args);
+            operateStatus();
+        }
         return true;
     }
 
@@ -88,6 +110,14 @@ public abstract class CommandBukkit extends BukkitCommand implements Listener {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public void addDivision (DivisionBukkit div) { divisions.add(div); }
+    public void removeDivision (DivisionBukkit div) { divisions.remove(div); }
+
+
+
+
+
 
     public @NotNull List<String> tabComplete(CommandSender sender, String alias, String[] args) {
         int indice = args.length - 1;

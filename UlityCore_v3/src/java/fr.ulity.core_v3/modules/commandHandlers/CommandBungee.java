@@ -8,7 +8,13 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public abstract class CommandBungee extends Command {
+    private final List<DivisionBungee> divisions = new ArrayList<>();
+
     public CommandSender sender;
     public Command cmd;
     public String[] args;
@@ -20,7 +26,27 @@ public abstract class CommandBungee extends Command {
         super(name);
     }
 
-    public abstract void exec(CommandSender paramCommandSender, String[] paramArrayOfString);
+    public boolean execDivision (CommandSender sender, String[] args) {
+        AtomicBoolean stat = new AtomicBoolean(false);
+
+        divisions.forEach(x -> {
+            int count = 0;
+            for (String y : args) {
+                if (x.requiredArgs.containsKey(count)) {
+                    if (!x.requiredArgs.get(count).contains(y))
+                        break;
+                    count++;
+                    if (args.length >= count) {
+                        stat.set(true);
+                        x.execute(sender, args);
+                    }
+                } else break;
+            }
+        });
+        return stat.get();
+    }
+
+    public abstract void exec(CommandSender sender, String[] args);
 
     public void execute(CommandSender sender, String[] args) {
         this.sender = sender;
@@ -28,8 +54,11 @@ public abstract class CommandBungee extends Command {
         this.args = args;
         this.arg = new ArgBungee(sender, this.cmd, args);
         this.cooldown = new UserCooldown(sender.getName(), getName());
-        exec(sender, args);
-        operateStatus();
+
+        if (!execDivision(sender, args)) {
+            exec(sender, args);
+            operateStatus();
+        }
     }
 
     public boolean isPlayer() {
