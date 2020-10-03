@@ -21,35 +21,13 @@ public final class MainBukkitRTP extends BukkitLoader {
 
     public static HashMap<String, HashMap<String, Object>> invincible = new HashMap<>();
 
-    public static final class ObtainEco {
-        public Economy eco;
-        public boolean available;
-
-        public ObtainEco () {
-            available = false;
-        }
-
-        public ObtainEco (Economy ecoProvider) {
-            eco = ecoProvider;
-            available = true;
-        }
-    }
-
-    public static ObtainEco getEco () {
-        if (plugin.getServer().getPluginManager().getPlugin("Vault") != null) {
-            RegisteredServiceProvider<Economy> rsp = plugin.getServer().getServicesManager().getRegistration(Economy.class);
-            if (rsp != null)
-                return new ObtainEco(rsp.getProvider());
-        }
-        return new ObtainEco();
-    }
 
     @Override
     public void onEnable() {
         plugin = this;
         Core.initialize(this);
 
-        config = new ServerConfig("config");
+        config = new ServerConfig("config", "SuperRTP");
         ConfigCopy.setDefault();
 
         new CommandRTP();
