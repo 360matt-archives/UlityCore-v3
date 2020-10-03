@@ -13,10 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.TabCompleteEvent;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
-
-import static org.bukkit.Bukkit.getPluginManager;
 
 public class HomeCommand extends CommandBukkit implements Listener {
 
@@ -24,10 +21,10 @@ public class HomeCommand extends CommandBukkit implements Listener {
         super("home");
         setPermission("ulity.packutils.home");
         addArrayTabbComplete(0, "ulity.packutils.home", new String[]{},  new String[]{"§Homes"});
-        if (MainBukkitPackUtils.enabler.canEnable(getName())) {
-            getPluginManager().registerEvents(this, MainBukkitPackUtils.plugin);
+        if (MainBukkitPackUtils.enabler.canEnable(getName()))
+           MainBukkitPackUtils.plugin.registerEvent(this);
+        else
             unregister(BukkitAPI.commandMap);
-        }
     }
 
     @EventHandler
