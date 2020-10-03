@@ -1,8 +1,6 @@
 package fr.ulity.worldmanager.api;
 
 import fr.ulity.core_v3.Core;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
 
 
 import java.io.File;
@@ -18,14 +16,8 @@ public class WorldMan {
         Arrays.stream(worldsFolder.listFiles()).forEach(x -> {
             String name = x.getName().replace(".yml", "");
 
-            World world = new WorldCreator(name).createWorld();
-
-            WorldStructureConfig woConf = new WorldStructureConfig(world);
-
-
-
-
+            if (WorldUtils.exist(name))
+                new WorldStructureConfig(name);
         });
-
     }
 }
