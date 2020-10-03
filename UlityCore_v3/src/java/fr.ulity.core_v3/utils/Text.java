@@ -65,4 +65,17 @@ public class Text {
     public List<String> outputList() { generate(); return this.outputList; }
     public String[] outputArray() { generate(); return this.outputList.toArray(new String[0]); }
     public String outputString() { generate(); return this.outputStr.toString().replaceAll("\n$", ""); }
+
+    public static String multiArg (String[] text, int pos) {
+        StringBuilder result = new StringBuilder();
+        for (String x : text)
+            if (pos == 0) result.append(x).append(" ");
+            else pos--;
+        return result.toString();
+    }
+
+    public static String multiArgFormated (String[] text, int pos) {
+        return new Text(multiArg(text, pos)).outputString();
+    }
+
 }
