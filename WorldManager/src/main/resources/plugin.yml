@@ -1,0 +1,6 @@
+name: WorldManager
+version: ${project.version}
+main: fr.ulity.worldmanager.bukkit.WorldManagerBukkit
+api-version: 1.16
+authors: [ 360matt ]
+description: I can do better than MVC with a mix of WG
